@@ -28,25 +28,27 @@ addBtn.addEventListener('click', () => {
   }
 })
 
-function thatsSoFetch(){
+function Fetch() {
   fetch(URL)
-  .then(res => res.json())
-  .then(json => {
-    console.log(json)
-     createToyCards(json)
-  })
+    .then(res => res.json())
+    .then(createToyCards);
 }
 
-function createToyCards(toys){
-  for(let i = 0;i < toys.length;i++){
-    let toy = toys[i];
-    createToyCard(toy)
-    }
+function createToyCards(toys) {
+  toys.forEach(createToyCard)
 }
 
-function createToyCard(toy){
+function createToyCard(toy) {
+  // console.log(toy)
   let toyDivCard = document.createElement('div')
   toyDivCard.className = 'card' 
+
+  // toyDivCard.innerHTML = `
+  //   <h2>${toy.name}</h2>
+  //   <img src ="${toy.name}" class = "toy-avatar"/>
+  //   <p>${toy.likes} Likes </p>
+  // `
+
   let toyh2 = document.createElement('h2')
   toyh2.innerText = toy.name
   let toyImg = document.createElement('img')
@@ -56,8 +58,9 @@ function createToyCard(toy){
   toyLikes.innerText = toy.likes + " Likes";
   let toyLikeButton = document.createElement('button')
   toyLikeButton.className = 'toy-btn'
-  toyLikeButton.innerText = "Like 💖"
-  toyLikeButton.addEventListener('click', function(){
+  toyLikeButton.innerText = "Like ♥" //💖"
+  toyLikeButton.addEventListener('click', function () {
+    // console.log(`add like to id: `, toy.id);
     toy.likes++
     fetch(URL + "/" + toy.id, {
       method: 'PUT',
@@ -85,17 +88,4 @@ function createNewToy(name,url){
   .then(res => res.json())
 }
 
-// function addLike(toy, toyLikes){
-//   toy.likes++
-//   fetch(URL + "/" + toy.id, {
-//     method: 'PUT',
-//     headers: {'Content-Type': 'application/json'},
-//     body: JSON.stringify({name: toy.name, image: toy.image, likes: toy.likes})
-//   })
-//   .then(res => res.json())
-//   .then(json => {
-//     toyLikes.innerText = toy.likes + " Likes";
-//   })
-// }
-
-thatsSoFetch()
+Fetch()
